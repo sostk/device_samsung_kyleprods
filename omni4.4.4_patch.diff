@@ -1,18 +1,3 @@
-diff -ur a/build/core/tasks/kernel.mk b/build/core/tasks/kernel.mk
---- a/build/core/tasks/kernel.mk	2016-02-06 00:00:00.000000000 +0000
-+++ b/build/core/tasks/kernel.mk	2016-02-06 00:00:00.000000000 +0000
-@@ -145,9 +145,9 @@
-     endif
-     ifneq ($(TARGET_KERNEL_CUSTOM_TOOLCHAIN),)
-         ifeq ($(HOST_OS),darwin)
--            ARM_CROSS_COMPILE:=CROSS_COMPILE="$(ccache) $(ANDROID_BUILD_TOP)/prebuilt/darwin-x86/toolchain/$(TARGET_KERNEL_CUSTOM_TOOLCHAIN)/bin/arm-eabi-"
-+            ARM_CROSS_COMPILE:=CROSS_COMPILE="$(ccache) $(ANDROID_BUILD_TOP)/prebuilts/gcc/darwin-x86/arm/$(TARGET_KERNEL_CUSTOM_TOOLCHAIN)/bin/arm-eabi-"
-         else
--            ARM_CROSS_COMPILE:=CROSS_COMPILE="$(ccache) $(ANDROID_BUILD_TOP)/prebuilt/linux-x86/toolchain/$(TARGET_KERNEL_CUSTOM_TOOLCHAIN)/bin/arm-eabi-"
-+            ARM_CROSS_COMPILE:=CROSS_COMPILE="$(ccache) $(ANDROID_BUILD_TOP)/prebuilts/gcc/linux-x86/arm/$(TARGET_KERNEL_CUSTOM_TOOLCHAIN)/bin/arm-eabi-"
-         endif
-     else
-         ARM_CROSS_COMPILE:=CROSS_COMPILE="$(ccache) $(ARM_EABI_TOOLCHAIN)/arm-eabi-"
 diff -ur a/external/bluetooth/bluedroid/audio_a2dp_hw/audio_a2dp_hw.c b/external/bluetooth/bluedroid/audio_a2dp_hw/audio_a2dp_hw.c
 --- a/external/bluetooth/bluedroid/audio_a2dp_hw/audio_a2dp_hw.c	2015-12-28 04:29:48.000000000 +0545
 +++ b/external/bluetooth/bluedroid/audio_a2dp_hw/audio_a2dp_hw.c	2016-05-18 19:22:32.044017336 +0545
@@ -811,7 +796,7 @@ diff -ur a/frameworks/native/services/surfaceflinger/Layer.cpp b/frameworks/nati
 Only in b/frameworks/native/services/surfaceflinger: Layer.cpp~
 diff -ur a/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp b/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp
 --- a/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp	2015-12-28 04:28:09.000000000 +0545
-+++ b/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp	2016-05-20 03:15:17.803911954 +0545
++++ b/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp	2016-05-20 04:21:16.305442173 +0545
 @@ -1124,6 +1124,7 @@
              sp<const DisplayDevice> hw(mDisplays[dpy]);
              const int32_t id = hw->getHwcDisplayId();
@@ -845,14 +830,14 @@ diff -ur a/frameworks/native/services/surfaceflinger/SurfaceFlinger.cpp b/framew
  #endif
                  }
              }
-@@ -3373,6 +3376,11 @@
- {
-     ATRACE_CALL();
+@@ -3226,6 +3229,11 @@
+     useReadPixels = true;
+ #endif
  
-+    // Rotation artifact problems when useReadPixels is false
 +    #ifdef HAWAII_HWC
 +        useReadPixels = true;
 +    #endif
++
 +
      // get screen geometry
      const uint32_t hw_w = hw->getWidth();
