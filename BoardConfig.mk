@@ -40,7 +40,6 @@ TARGET_KERNEL_CUSTOM_TOOLCHAIN              := arm-eabi-4.6
 BOARD_BOOTIMAGE_PARTITION_SIZE              := 8388608
 BOARD_RECOVERYIMAGE_PARTITION_SIZE          := 9191424
 BOARD_SYSTEMIMAGE_PARTITION_SIZE            := 1200283648
-BOARD_SYSTEMIMAGE_JOURNAL_SIZE              := 0
 BOARD_USERDATAIMAGE_PARTITION_SIZE          := 2382364672
 BOARD_CACHEIMAGE_PARTITION_SIZE             := 209715200
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE           := ext4
@@ -84,6 +83,7 @@ TARGET_SCREEN_HEIGHT                        := 800
 TARGET_SCREEN_WIDTH                         := 480
 
 # Hardware rendering
+BOARD_EGL_CFG                               := device/samsung/kyleprods/configs/egl.cfg
 USE_OPENGL_RENDERER                         := true
 BOARD_USE_MHEAP_SCREENSHOT                  := true
 BOARD_EGL_WORKAROUND_BUG_10194508           := true
@@ -93,11 +93,8 @@ COMMON_GLOBAL_CFLAGS                        += -DNEEDS_VECTORIMPL_SYMBOLS -DHAWA
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK       := true
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS       := true
 
-# External apps on SD
-TARGET_EXTERNAL_APPS                        := sdcard1
-
-# Include an expanded selection of fonts
-EXTENDED_FONT_FOOTPRINT                     := true
+# Enable WEBGL in WebKit
+ENABLE_WEBGL                                := true
 
 # OpenGL
 BOARD_USES_HWCOMPOSER                       := true
@@ -174,18 +171,4 @@ BOARD_SEPOLICY_DIRS += \
     device/samsung/kyleprods/sepolicy
 
 BOARD_SEPOLICY_UNION += \
-    file_contexts \
-    property_contexts \
-    bkmgrd.te \
-    device.te \
-    surfaceflinger.te \
-    bluetooth.te \
-    gpsd.te \
-    healthd.te \
-    init.te \
-    immvibed.te \
-    kernel.te \
-    macloader.te \
-    rild.te \
-    shell.te \
-    system_server.te
+    file_contexts

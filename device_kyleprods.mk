@@ -15,28 +15,36 @@ PRODUCT_COPY_FILES += \
     device/samsung/kyleprods/rootdir/init.hawaii_ss_kyleprods.rc:root/init.hawaii_ss_kyleprods.rc \
     device/samsung/kyleprods/rootdir/init.bcm2166x.usb.rc:root/init.bcm2166x.usb.rc \
     device/samsung/kyleprods/rootdir/init.log.rc:root/init.log.rc \
+    device/samsung/kyleprods/rootdir/lpm.rc:root/lpm.rc \
     device/samsung/kyleprods/rootdir/ueventd.hawaii_ss_kyleprods.rc:root/ueventd.hawaii_ss_kyleprods.rc
-
-# Google's Software Decoder.
-PRODUCT_COPY_FILES += \
-    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:system/etc/media_codecs_google_video_le.xml
 
 # Configs
 PRODUCT_COPY_FILES += \
     device/samsung/kyleprods/configs/media_codecs.xml:system/etc/media_codecs.xml
 
-# Insecure ADB
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    ro.secure=0 \
-    ro.adb.secure=0 \
+ifeq ($(TARGET_BUILD_VARIANT),user)
+    # Secure ADB
+    ADDITIONAL_DEFAULT_PROPERTIES += \
+        ro.secure=1 \
+        ro.adb.secure=1
+else
+    # Insecure ADB
+    ADDITIONAL_DEFAULT_PROPERTIES += \
+        ro.secure=0 \
+        ro.adb.secure=0
+endif
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     make_ext4fs \
     e2fsck \
     setup_fs
+
+# CyanogenMod has removed CMAccount but not
+# fix the SetupWizard to working without it
+# http://review.cyanogenmod.org/#/c/131177/
+PRODUCT_PACKAGES += \
+    CMAccount
 
 # USB accessory
 PRODUCT_PACKAGES += \
@@ -75,6 +83,10 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+# Torch
+PRODUCT_PACKAGES += \
+    Torch
+
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
@@ -84,7 +96,6 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
     frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
     frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
@@ -122,10 +133,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.kernel.android.checkjni=0 \
     ro.kernel.checkjni=0 \
     dalvik.vm.checkjni=false
-
-# ART
-PRODUCT_PROPERTY_OVERRIDES += \
-    dalvik.vm.dex2oat-flags=--no-watch-dog
 
 # Use Awesomeplayer
 PRODUCT_PROPERTY_OVERRIDES += \
