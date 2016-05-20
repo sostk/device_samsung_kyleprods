@@ -755,8 +755,8 @@ diff -ur a/frameworks/native/libs/gui/SensorEventQueue.cpp b/frameworks/native/l
 Only in b/frameworks/native/libs/gui: SensorEventQueue.cpp~
 diff -ur a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp b/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp
 --- a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp	2015-12-28 04:28:09.000000000 +0545
-+++ b/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp	2016-05-20 08:03:11.168908780 +0545
-@@ -1365,6 +1365,7 @@
++++ b/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.cpp	2016-05-20 12:33:26.392643906 +0545
+@@ -1365,16 +1365,20 @@
      virtual void setPlaneAlpha(uint8_t alpha) {
  // CAPRI_HWC does not respect planeAlpha despite being v1.2
  #ifndef CAPRI_HWC
@@ -764,7 +764,9 @@ diff -ur a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.
          if (hwcHasApiVersion(mHwc, HWC_DEVICE_API_VERSION_1_2)) {
              getLayer()->planeAlpha = alpha;
          } else {
-@@ -1373,8 +1374,10 @@
+ #endif
++    #endif
+             if (alpha < 0xFF) {
                  getLayer()->flags |= HWC_SKIP_LAYER;
              }
  #ifndef CAPRI_HWC
