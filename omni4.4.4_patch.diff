@@ -775,7 +775,7 @@ diff -ur a/frameworks/native/services/surfaceflinger/DisplayHardware/HWComposer.
 Only in b/frameworks/native/services/surfaceflinger/DisplayHardware: HWComposer.cpp~
 diff -ur a/frameworks/native/services/surfaceflinger/Layer.cpp b/frameworks/native/services/surfaceflinger/Layer.cpp
 --- a/frameworks/native/services/surfaceflinger/Layer.cpp	2015-12-28 04:28:09.000000000 +0545
-+++ b/frameworks/native/services/surfaceflinger/Layer.cpp	2016-05-18 19:48:40.476111140 +0545
++++ b/frameworks/native/services/surfaceflinger/Layer.cpp	2016-05-20 06:33:21.409124694 +0545
 @@ -1214,6 +1214,7 @@
      uint32_t orientation = 0;
  // CAPRI_HWC has display problem in landscape mode when transform is used
@@ -784,11 +784,10 @@ diff -ur a/frameworks/native/services/surfaceflinger/Layer.cpp b/frameworks/nati
      if (!mFlinger->mDebugDisableTransformHint) {
          // The transform hint is used to improve performance, but we can
          // only have a single transform hint, it cannot
-@@ -1224,7 +1225,7 @@
-             orientation = 0;
+@@ -1225,6 +1226,7 @@
          }
      }
--#endif
+ #endif
 +    #endif
      mSurfaceFlingerConsumer->setTransformHint(orientation);
  }
