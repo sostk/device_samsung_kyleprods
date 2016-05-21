@@ -927,3 +927,25 @@ diff -ur a/hardware/broadcom/libbt/src/userial_vendor.c b/hardware/broadcom/libb
  #endif
  
 Only in b/hardware/broadcom/libbt/src: userial_vendor.c~
+diff -ur a/system/core/libnetutils/ifc_utils.c b/system/core/libnetutils/ifc_utils.c
+--- a/system/core/libnetutils/ifc_utils.c 2016-02-09 07:54:06.926025648 +0000
++++ b/system/core/libnetutils/ifc_utils.c 2016-02-09 07:57:33.942025648 +0000
+@@ -701,3 +701,19 @@
+return 0;
+}
++
++// Required for Broadcom RILD
++int ifc_set_mtu(const char *name, int mtuSz)
++{
++ struct ifreq ifr;
++ int ret;
++ ifc_init_ifr(name, &ifr);
++ ifr.ifr_mtu = mtuSz;
++
++ ret = ioctl(ifc_ctl_sock, SIOCSIFMTU, &ifr);
++ if (ret < 0) {
++ printerr("ifc_set_mtu: SIOCSIFMTU failed: %d\n", ret);
++ }
++
++ return ret;
++}
